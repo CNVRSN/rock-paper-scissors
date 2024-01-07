@@ -60,25 +60,32 @@ function playRound (playerOne, cpu) {
         alert("Did you forget to choose between Rock, Paper and Scissors?");
     }
     else if (playerOne === cpu) {
-        return (`You both chose ${cpu}! Its a tie`)
+        console.log(`You both chose ${cpu}! Its a tie`)
+        return "tie";
     }   
     else if (playerOne === options[0] && cpu === options[1]) {
-        return `You lose! ${options[1]} beats ${options[0]}`;
+        console.log(`You lose! ${options[1]} beats ${options[0]}`);
+        return "computer";
     } 
     else if (playerOne === options[0] && cpu === options[2]) {
-        return `You win! ${options[0]} beats ${options[2]}`;
+        console.log(`You win! ${options[0]} beats ${options[2]}`)
+        return "player";
     } 
     else if (playerOne === options[1] && cpu === options[2]) {
-        return `You lose! ${options[2]} beats ${options[1]}`;
+        console.log(`You lose! ${options[2]} beats ${options[1]}`);
+        return "computer";
     }
     else if (playerOne === options[1] && cpu === options[0]) {
-        return `You win! ${options[1]} beats ${options[0]}`;
+        console.log(`You win! ${options[1]} beats ${options[0]}`);
+        return "player";
     } 
     else if (playerOne === options[2] && cpu === options[0]) {
-        return `You lose! ${options[0]} beats ${options[2]}`;
+        console.log(`You lose! ${options[0]} beats ${options[2]}`);
+        return "computer";
     } 
     else if (playerOne === options[2] && cpu === options[1]) {
-        return `You win! ${options[2]} beats ${options[1]}`;
+        console.log(`You win! ${options[2]} beats ${options[1]}`);
+        return "player";
     }
 }
 
@@ -89,13 +96,28 @@ const computerSelection = getComputerChoice();
 function game() {
     // keep the score and reset the game 5 times, then return the result
     // keep score
+    let playerScore = 0;
+    let computerScore = 0;
+    for (let round = 1; round <=5; round++) {
+        const playerSelection = prompt(`Round ${round}, your turn`).toLowerCase();
+        const computerSelection = getComputerChoice(); 
+        const roundResult  =  playRound(playerSelection, computerSelection);
 
-    // loop the game 5 times
-    // if i is less than 5, run the game
-    // if is equal to 5, stop the game
-    for (let  i = 0; i < 5; i++) {
-        console.log(playRound(playerSelection, computerSelection));
+        if (roundResult === "computer") {
+            computerScore ++;
+        }   else if (roundResult === "player") {
+            playerScore ++;
+        }   
+        // Display current score
+        console.log(`Score - Player: ${playerScore}, Computer: ${computerScore}`);
+    }
+    if (playerScore > computerScore) {
+        console.log("You win the game!");
+    }   else if (computerScore > playerScore) {
+        console.log("You lose!");
+    }   else if (playerScore === computerScore) {
+        console.log("It's a tie!");
     }
 }
-// not working
-game()
+
+game();
