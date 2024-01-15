@@ -11,40 +11,41 @@
 // prompt the user to play a turn
 // computer select a random value as your turn
 
-/*
-// define an array of possible selections
-let options = ["rock", "paper", "scissors"];
 
 
-// get player's selection
-let p2 = prompt("Your turn").toLowerCase();
+// define the possible selections
 
-// check if player selection is valid
-while (!options.includes(p2)) {
-    alert("Did you forget to choose between Rock, Paper and Scissors?");
-    p2 = prompt("Your turn").toLowerCase();; 
+const btn = document.querySelector("#btn")
+
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
+
+let options = ["rock", "paper", "scissors"]
+
+/* gets the player's selection onclick, from
+options, and returns it */
+
+function getPlayerChoice() {
+    rock.addEventListener("click", (e) => {
+        if (e.target.id = "rock") {
+            return "rock";
+        }
+    });
+    
+    paper.addEventListener("click", (e) => {
+        if (e.target.id = "paper") {
+            return "paper";
+        }
+    });
+    
+    scissors.addEventListener("click", (e) => {
+        if (e.target.id = "scissors") {
+            return "scissors";
+        }
+    });
 }
-console.log(p2);
 
-// let computer pick from the array at ramdom
-
-
-// print the computer's turn
-
-
-// keep score
-const COMPUTERSCORE = 0;
-const PLAYERSCORE = 0;
-
-// check for draws
-while (p2 === choice) {
-    p2 = prompt("Your turn").toLowerCase();;
-}
-
-*/
-
-// define an array of possible selections
-let options = ["rock", "paper", "scissors"];
 
 // write a function to get the computer's choice
 function getComputerChoice() {
@@ -52,71 +53,62 @@ function getComputerChoice() {
     return choice;
 }
 
-
 // write a function to play the round
-function playRound (playerOne, cpu) {
+function playRound(playerChoice, computerChoice) {
 
-    if (!options.includes(playerOne)) {
-        alert("Did you forget to choose between Rock, Paper and Scissors?");
-    }
-    else if (playerOne === cpu) {
-        console.log(`You both chose ${cpu}! Its a tie`)
-        return "tie";
-    }   
-    else if (playerOne === options[0] && cpu === options[1]) {
-        console.log(`You lose! ${options[1]} beats ${options[0]}`);
-        return "computer";
-    } 
-    else if (playerOne === options[0] && cpu === options[2]) {
-        console.log(`You win! ${options[0]} beats ${options[2]}`)
-        return "player";
-    } 
-    else if (playerOne === options[1] && cpu === options[2]) {
-        console.log(`You lose! ${options[2]} beats ${options[1]}`);
-        return "computer";
-    }
-    else if (playerOne === options[1] && cpu === options[0]) {
-        console.log(`You win! ${options[1]} beats ${options[0]}`);
-        return "player";
-    } 
-    else if (playerOne === options[2] && cpu === options[0]) {
-        console.log(`You lose! ${options[0]} beats ${options[2]}`);
-        return "computer";
-    } 
-    else if (playerOne === options[2] && cpu === options[1]) {
-        console.log(`You win! ${options[2]} beats ${options[1]}`);
-        return "player";
+    console.log(`Player chooses ${playerChoice}`);
+    console.log(`Computer chooses ${computerChoice}`);
+
+    if (playerChoice === computerChoice) {
+        return "It's a tie!";
+    } else if (
+        (playerChoice === "rock" && computerChoice === "scissors") ||
+        (playerChoice === "paper" && computerChoice === "rock") ||
+        (playerChoice === "scissors" && computerChoice === "paper")
+    ) {
+        return "Player wins this round!";
+    } else {
+        return "Computer wins this round!";
     }
 }
 
-const playerSelection = prompt("Your turn").toLowerCase();
-const computerSelection = getComputerChoice();
-// console.log(playRound(playerSelection, computerSelection))
+const computer = getComputerChoice();
+const player = getPlayerChoice();
+playRound(player, computer);
 
+// write a function to play the game until a player reaches 5
 function game() {
-    // keep the score and reset the game 5 times, then return the result
-    // keep score
+
     let playerScore = 0;
     let computerScore = 0;
-    for (let round = 1; round <=5; round++) {
-        const playerSelection = prompt(`Round ${round}, your turn`).toLowerCase();
-        const computerSelection = getComputerChoice(); 
-        const roundResult  =  playRound(playerSelection, computerSelection);
+    let result = "";
 
-        if (roundResult === "computer") {
-            computerScore ++;
-        }   else if (roundResult === "player") {
-            playerScore ++;
-        }   
-        // Display current score
-        console.log(`Score - Player: ${playerScore}, Computer: ${computerScore}`);
-    }
-    if (playerScore > computerScore) {
-        console.log("You win the game!");
-    }   else if (computerScore > playerScore) {
-        console.log("You lose!");
-    }   else if (playerScore === computerScore) {
-        console.log("It's a tie!");
+    while (playerScore < 5 && computerScore < 5) {
+        btn.addEventListener("click", (e) => {
+            if (e.target.id = "btn") {
+                const playerChoice = getPlayerChoice();
+                const computerChoice = getComputerChoice();
+
+                result = playRound(playerChoice, computerChoice);
+                console.log(result);
+            }
+        });
+
+        if (result.includes("Player wins")) {
+            playerScore++;
+        }
+        else if (result.includes("Computer wins")) {
+            computerScore++;
+        }
+    } 
+    
+    // Display current score
+    console.log(`Score - Player: ${playerScore}, Computer: ${computerScore}`);
+
+    if (playerScore === 5) {
+        console.log("You win! Refresh to play again.")
+    } else if (computerScore === 5) {
+        console.log("CPU wins! Refresh to play again.")
     }
 }
 
